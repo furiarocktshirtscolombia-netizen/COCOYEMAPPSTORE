@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Selections, BaseType } from './types';
-import { STEPS, PRICES, LOGO_URL, BACKGROUND_URL } from './constants';
+import { STEPS, PRICES, LOGO_URL, BACKGROUND_URL, WHATSAPP_NUMBER, INSTAGRAM_URL, FURIAROCK_URL } from './constants';
 import Stepper from './components/Stepper';
 import Step1Base from './components/steps/Step1Base';
 import Step2Color from './components/steps/Step2Color';
@@ -9,21 +9,28 @@ import Step3Tshirt from './components/steps/Step3Tshirt';
 import Step4Design from './components/steps/Step4Design';
 import Step5Summary from './components/steps/Step5Summary';
 import Preview from './components/Preview';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Phone, Instagram } from 'lucide-react';
+
+const initialSelections: Selections = {
+    base: null,
+    baseColor: 'negro',
+    tshirtColor: 'negra',
+    design: {
+        hasCustomDesign: false,
+        placement: 'frente_grande',
+    },
+    size: null,
+    notes: '',
+};
 
 const App: React.FC = () => {
     const [currentStep, setCurrentStep] = useState(1);
-    const [selections, setSelections] = useState<Selections>({
-        base: null,
-        baseColor: 'negro',
-        tshirtColor: 'negra',
-        design: {
-            hasCustomDesign: false,
-            placement: 'frente_grande',
-        },
-        size: null,
-        notes: '',
-    });
+    const [selections, setSelections] = useState<Selections>(initialSelections);
+
+    const handleReset = () => {
+        setSelections(initialSelections);
+        setCurrentStep(1);
+    };
 
     const handleNext = () => {
         if (currentStep < STEPS.length) {
@@ -72,7 +79,7 @@ const App: React.FC = () => {
             case 4:
                 return <Step4Design design={selections.design} onUpdateDesign={(design) => updateSelections('design', design)} />;
             case 5:
-                return <Step5Summary selections={selections} onUpdateSize={(size) => updateSelections('size', size)} onUpdateNotes={(notes) => updateSelections('notes', notes)} totalPrice={totalPrice}/>;
+                return <Step5Summary selections={selections} onUpdateSize={(size) => updateSelections('size', size)} onUpdateNotes={(notes) => updateSelections('notes', notes)} totalPrice={totalPrice} onReset={handleReset}/>;
             default:
                 return null;
         }
@@ -84,13 +91,18 @@ const App: React.FC = () => {
             style={{ backgroundImage: `url(${BACKGROUND_URL})` }}
         >
             <div className="absolute inset-0 bg-stone-100/90 backdrop-blur-sm z-0"></div>
-            <div className="relative z-10 w-full max-w-7xl mx-auto">
-                <header className="text-center mb-8">
-                    <div className="relative w-full max-w-lg mx-auto flex items-center justify-center py-4">
-                        <h1 className="text-5xl md:text-6xl font-bold text-amber-900">COCOYEMA</h1>
-                        <img src={LOGO_URL} alt="COCOYEMA Logo" className="h-12 absolute right-0 top-1/2 -translate-y-1/2 opacity-90"/>
+            
+            <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col min-h-screen">
+                <header className="mb-8 w-full">
+                    <div className="relative flex items-center justify-center text-center py-4">
+                         <button onClick={handleReset} className="absolute left-0 top-1/2 -translate-y-1/2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-800 focus:ring-offset-2 rounded-full">
+                            <img src={LOGO_URL} alt="COCOYEMA Logo - Volver al inicio" className="h-24 md:h-28"/>
+                        </button>
+                        <div className="text-center">
+                            <h1 className="text-5xl md:text-6xl font-bold text-amber-900">COCOYEMA</h1>
+                            <p className="text-stone-600 mt-1 text-lg">Crea el conjunto perfecto para tu peque</p>
+                        </div>
                     </div>
-                    <p className="text-stone-600 mt-1 text-lg">Crea el conjunto perfecto para tu peque</p>
                 </header>
                 
                 <div className="w-full">
@@ -134,7 +146,26 @@ const App: React.FC = () => {
                     <Preview selections={selections} />
                     </div>
                 </main>
+                <footer className="w-full text-center mt-auto pt-8 flex items-center justify-center gap-4 md:gap-6 text-sm text-stone-600">
+                    <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-amber-800 transition-colors">
+                        <Instagram size={18} />
+                        Visítanos en Instagram
+                    </a>
+                    <span className="text-stone-400">|</span>
+                    <a href={FURIAROCK_URL} target="_blank" rel="noopener noreferrer" className="hover:text-amber-800 transition-colors">
+                        Fabricado y distribuido por Furiarock t-shirts
+                    </a>
+                </footer>
             </div>
+            <a
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-transform hover:scale-110 z-20"
+                aria-label="Contactar por WhatsApp"
+            >
+                <Phone size={28} />
+            </a>
         </div>
     );
 };

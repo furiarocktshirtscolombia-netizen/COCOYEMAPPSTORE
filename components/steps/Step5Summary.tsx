@@ -2,16 +2,17 @@
 import React from 'react';
 import { Selections, Size } from '../../types';
 import { SIZES, WHATSAPP_NUMBER, PLACEMENT_OPTIONS } from '../../constants';
-import { MessageCircle, Send } from 'lucide-react';
+import { MessageCircle, Send, RotateCw } from 'lucide-react';
 
 interface Step5SummaryProps {
     selections: Selections;
     onUpdateSize: (size: Size) => void;
     onUpdateNotes: (notes: string) => void;
     totalPrice: number;
+    onReset: () => void;
 }
 
-const Step5Summary: React.FC<Step5SummaryProps> = ({ selections, onUpdateSize, onUpdateNotes, totalPrice }) => {
+const Step5Summary: React.FC<Step5SummaryProps> = ({ selections, onUpdateSize, onUpdateNotes, totalPrice, onReset }) => {
 
     const getPlacementName = (id: string): string => {
         const option = Object.values(PLACEMENT_OPTIONS).flat().find(p => p.id === id);
@@ -107,6 +108,13 @@ const Step5Summary: React.FC<Step5SummaryProps> = ({ selections, onUpdateSize, o
                         Ordenar por WhatsApp
                     </button>
                      <p className="text-xs text-stone-500 text-center mt-3">Serás redirigido a WhatsApp para finalizar tu pedido. Si indicaste que tenías un diseño, no olvides enviarlo también en el chat.</p>
+                     <button
+                        onClick={onReset}
+                        className="w-full mt-4 flex items-center justify-center gap-2 px-6 py-3 bg-stone-100 text-stone-700 font-semibold rounded-lg shadow-sm hover:bg-stone-200 transition-all border border-stone-200"
+                    >
+                        <RotateCw size={18} />
+                        Empezar de nuevo
+                    </button>
                 </div>
             </div>
         </div>

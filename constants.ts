@@ -7,6 +7,9 @@ const RAW_BASE = "https://raw.githubusercontent.com/furiarocktshirtscolombia-net
 
 export const LOGO_URL = `${RAW_BASE}/assets/branding/logo_cocoyema.png`;
 export const BACKGROUND_URL = `${RAW_BASE}/assets/backgrounds/bg_texture.png`;
+export const INSTAGRAM_URL = "https://www.instagram.com/cocoyemacolombia/";
+export const FURIAROCK_URL = "https://www.furia-rock.com/";
+
 
 export const ASSETS = {
     shorts: {
