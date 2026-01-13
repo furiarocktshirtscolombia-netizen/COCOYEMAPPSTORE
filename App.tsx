@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
-import { Selections, BaseType } from './types';
+import { Selections, BaseType, CustomerDetails } from './types';
 import { STEPS, PRICES, LOGO_URL, BACKGROUND_URL, WHATSAPP_NUMBER, INSTAGRAM_URL, FURIAROCK_URL, CANVA_URL } from './constants';
 import Stepper from './components/Stepper';
 import Step1Base from './components/steps/Step1Base';
@@ -21,6 +21,13 @@ const initialSelections: Selections = {
     },
     size: null,
     notes: '',
+    customerDetails: {
+        fullName: '',
+        phoneNumber: '',
+        department: '',
+        city: '',
+        address: ''
+    }
 };
 
 const App: React.FC = () => {
@@ -57,7 +64,11 @@ const App: React.FC = () => {
             case 3:
                 return !selections.tshirtColor;
             case 5:
-                 return !selections.size;
+                 // Disable next/finish if size or required customer details are missing
+                 // (Though Step 5 uses the WhatsApp button as the "Final" action, 
+                 // this keeps the stepper logic consistent if we were to add a "Finish" button outside)
+                 const { fullName, phoneNumber, city, address } = selections.customerDetails;
+                 return !selections.size || !fullName || !phoneNumber || !city || !address;
             default:
                 return false;
         }
@@ -79,7 +90,16 @@ const App: React.FC = () => {
             case 4:
                 return <Step4Design design={selections.design} onUpdateDesign={(design) => updateSelections('design', design)} />;
             case 5:
-                return <Step5Summary selections={selections} onUpdateSize={(size) => updateSelections('size', size)} onUpdateNotes={(notes) => updateSelections('notes', notes)} totalPrice={totalPrice} onReset={handleReset}/>;
+                return (
+                    <Step5Summary 
+                        selections={selections} 
+                        onUpdateSize={(size) => updateSelections('size', size)} 
+                        onUpdateNotes={(notes) => updateSelections('notes', notes)} 
+                        onUpdateCustomerDetails={(details: CustomerDetails) => updateSelections('customerDetails', details)}
+                        totalPrice={totalPrice} 
+                        onReset={handleReset}
+                    />
+                );
             default:
                 return null;
         }
@@ -151,10 +171,10 @@ const App: React.FC = () => {
                     
                     {/* 
                        CONTROLS (Step Components)
-                       Mobile: Order 1 (First Plane / Top)
-                       Desktop: Order 1 (Left Column)
+                       Mobile: Full width
+                       Desktop: Left Column
                     */}
-                    <div className="bg-white rounded-2xl shadow-lg p-5 md:p-10 flex flex-col">
+                    <div className="bg-white rounded-2xl shadow-lg p-5 md:p-10 flex flex-col order-1">
                         <div className="flex-grow">
                             {renderStep()}
                         </div>
@@ -191,24 +211,25 @@ const App: React.FC = () => {
                     </div>
 
                     {/* 
-                       PREVIEW (Visual Feedback)
-                       Mobile: Order 2 (Below Controls, Miniature Rectangle)
-                       Desktop: Order 2 (Right Column, Sticky)
+                       DESKTOP PREVIEW
+                       Mobile: HIDDEN (Replaced by floating window)
+                       Desktop: Right Column, Sticky
                     */}
-                    <div className="lg:sticky lg:top-8 h-auto">
-                        {/* 
-                           The container height changes based on screen size:
-                           Mobile: h-64 (Fixed rectangular miniature window below controls)
-                           Desktop: Auto/Full height
-                        */}
-                        <div className="h-64 lg:h-auto lg:min-h-[600px] w-full">
+                    <div className="hidden lg:block lg:sticky lg:top-8 h-auto order-2">
+                        <div className="h-auto lg:min-h-[600px] w-full">
                              <Preview selections={selections} />
                         </div>
                     </div>
 
                 </main>
 
-                <footer className="w-full text-center mt-auto pt-8 flex items-center justify-center gap-4 md:gap-6 text-xs sm:text-sm text-stone-600 pb-20 sm:pb-8">
+                {/* --- MOBILE FLOATING PREVIEW --- */}
+                {/* Fixed bottom-left window. Rectangular aspect ratio to show full outfit. */}
+                <div className="fixed bottom-5 left-4 z-40 w-36 aspect-[3/4] shadow-2xl rounded-xl border-2 border-white bg-white lg:hidden overflow-hidden">
+                    <Preview selections={selections} compact={true} />
+                </div>
+
+                <footer className="w-full text-center mt-auto pt-8 flex items-center justify-center gap-4 md:gap-6 text-xs sm:text-sm text-stone-600 pb-32 lg:pb-8">
                     <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-amber-800 transition-colors">
                         <Instagram size={18} />
                         <span className="hidden sm:inline">Visítanos en Instagram</span>
@@ -220,11 +241,13 @@ const App: React.FC = () => {
                     </a>
                 </footer>
             </div>
+            
+            {/* WhatsApp Button (Bottom Right) */}
             <a
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-transform hover:scale-110 z-20"
+                className="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-transform hover:scale-110 z-40"
                 aria-label="Contactar por WhatsApp"
             >
                 <Phone size={28} />

@@ -14,6 +14,14 @@ export interface Design {
     placement: Placement;
 }
 
+export interface CustomerDetails {
+    fullName: string;
+    phoneNumber: string;
+    department: string;
+    city: string;
+    address: string;
+}
+
 export interface Selections {
     base: BaseType | null;
     baseColor: Color;
@@ -21,4 +29,5 @@ export interface Selections {
     design: Design;
     size: Size | null;
     notes: string;
+    customerDetails: CustomerDetails;
 }
