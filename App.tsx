@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Selections, BaseType } from './types';
-import { STEPS, PRICES, LOGO_URL, BACKGROUND_URL, WHATSAPP_NUMBER, INSTAGRAM_URL, FURIAROCK_URL } from './constants';
+import { STEPS, PRICES, LOGO_URL, BACKGROUND_URL, WHATSAPP_NUMBER, INSTAGRAM_URL, FURIAROCK_URL, CANVA_URL } from './constants';
 import Stepper from './components/Stepper';
 import Step1Base from './components/steps/Step1Base';
 import Step2Color from './components/steps/Step2Color';
@@ -9,7 +9,7 @@ import Step3Tshirt from './components/steps/Step3Tshirt';
 import Step4Design from './components/steps/Step4Design';
 import Step5Summary from './components/steps/Step5Summary';
 import Preview from './components/Preview';
-import { ArrowLeft, ArrowRight, Phone, Instagram } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Phone, Instagram, BookOpen } from 'lucide-react';
 
 const initialSelections: Selections = {
     base: null,
@@ -102,6 +102,15 @@ const App: React.FC = () => {
                             <h1 className="text-5xl md:text-6xl font-bold text-amber-900">COCOYEMA</h1>
                             <p className="text-stone-600 mt-1 text-lg">Crea el conjunto perfecto para tu peque</p>
                         </div>
+                         <a 
+                            href={CANVA_URL} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/60 hover:bg-white/90 backdrop-blur-sm border border-white/50 text-amber-900 font-semibold rounded-lg shadow-sm transition-all"
+                        >
+                            <BookOpen size={18} />
+                            <span className="hidden sm:inline">Catálogo</span>
+                        </a>
                     </div>
                 </header>
                 
