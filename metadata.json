@@ -1,0 +1,5 @@
+{
+  "name": "COCOYEMA Custom Outfit Builder",
+  "description": "A premium web application for COCOYEMA, allowing users to design and customize children's clothing sets through an intuitive wizard. Selections are compiled into a pre-filled WhatsApp message for easy ordering.",
+  "requestFramePermissions": []
+}
