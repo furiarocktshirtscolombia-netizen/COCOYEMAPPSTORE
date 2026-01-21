@@ -2,7 +2,7 @@
 import { BaseType, Color, TshirtColor, Placement, Size } from './types';
 
 export const WHATSAPP_NUMBER = "573147995183";
-export const CANVA_URL = "https://www.canva.com/design/DAG0TS9xmGQ/TkStO-JZJN6dv0mqJ4EwSg/view";
+export const CANVA_URL = "https://www.canva.com/design/DAG-_c0OJuk/UGeTUITeRBqYqGaLn80aDA/view?utm_content=DAG-_c0OJuk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha0dd70bf48";
 const RAW_BASE = "https://raw.githubusercontent.com/furiarocktshirtscolombia-netizen/cocoyema-assets/main";
 
 export const LOGO_URL = `${RAW_BASE}/assets/branding/logo_cocoyema.png`;
